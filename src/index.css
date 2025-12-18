@@ -131,6 +131,11 @@
     @apply border-primary bg-primary/10;
     box-shadow: 0 0 15px hsl(var(--crimson) / 0.3);
   }
+
+  /* Radial gradient */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
 }
 
 @layer utilities {
@@ -145,6 +150,14 @@
 
   .animate-fade-in-down {
     animation: fadeInDown 0.8s ease-out forwards;
+  }
+
+  .animate-fade-in-right {
+    animation: fadeInRight 0.8s ease-out forwards;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
   }
 
   .animate-scale-in {
@@ -195,6 +208,28 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
   }
 }
 

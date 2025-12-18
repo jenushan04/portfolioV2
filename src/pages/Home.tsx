@@ -2,16 +2,46 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown, Code, Cpu, Database, Layers } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Home() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+      <section className="min-h-screen relative overflow-hidden pt-20">
         {/* Animated background elements */}
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Cursor-following light source */}
+          <div 
+            className="absolute w-[400px] h-[400px] bg-gradient-radial from-primary/15 via-primary/5 to-transparent rounded-full blur-3xl transition-all duration-300 ease-out"
+            style={{
+              left: mousePosition.x - 200,
+              top: mousePosition.y - 200,
+            }}
+          />
+          <div 
+            className="absolute w-[200px] h-[200px] bg-gradient-radial from-primary/20 via-primary/8 to-transparent rounded-full blur-2xl transition-all duration-200 ease-out"
+            style={{
+              left: mousePosition.x - 100,
+              top: mousePosition.y - 100,
+            }}
+          />
+          
           {/* Large glow orb */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl animate-pulse-glow" />
+          
+
           
           {/* Floating particles */}
           <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full animate-float" style={{ animationDelay: "0s" }} />
@@ -20,45 +50,61 @@ export default function Home() {
           <div className="absolute top-1/2 right-1/4 w-4 h-4 bg-primary/30 rounded-full animate-float" style={{ animationDelay: "3s" }} />
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
-            {/* Glitch-style intro */}
-            <div className="mb-6 opacity-0 animate-fade-in-down" style={{ animationDelay: "200ms", animationFillMode: "forwards" }}>
-              <span className="text-primary font-mono text-sm tracking-[0.3em] uppercase">
-                &lt;/developer&gt;
-              </span>
+        <div className="container mx-auto px-6 relative z-10 h-screen flex items-center">
+          <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto w-full">
+            {/* Left Column - Content */}
+            <div className="text-center lg:text-left flex flex-col justify-center">
+              {/* Glitch-style intro */}
+              <div className="mb-6 opacity-0 animate-fade-in-down" style={{ animationDelay: "200ms", animationFillMode: "forwards" }}>
+                <span className="text-primary font-mono text-sm tracking-[0.3em] uppercase">
+                  &lt;/developer&gt;
+                </span>
+              </div>
+
+              {/* Main heading */}
+              <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black mb-6 opacity-0 animate-fade-in-up" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
+                <span className="text-foreground">I'm </span>
+                <span className="text-primary glow-text">Jenushan</span>
+              </h1>
+
+              {/* Subtitle */}
+              <p className="text-xl md:text-2xl text-muted-foreground font-light mb-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
+                Full-Stack Developer & Creative Technologist
+              </p>
+
+              {/* Tagline */}
+              <p className="text-lg text-muted-foreground/70 max-w-2xl lg:max-w-none mb-10 opacity-0 animate-fade-in-up" style={{ animationDelay: "800ms", animationFillMode: "forwards" }}>
+                Crafting powerful digital experiences with cutting-edge technology.
+                Building the future, one line of code at a time.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center lg:items-start lg:justify-start justify-center gap-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "1000ms", animationFillMode: "forwards" }}>
+                <Link to="/projects">
+                  <GlowButton size="lg">
+                    View My Work
+                    <ArrowRight size={18} className="ml-2 inline" />
+                  </GlowButton>
+                </Link>
+                <Link to="/contact">
+                  <GlowButton variant="outline" size="lg">
+                    Get In Touch
+                  </GlowButton>
+                </Link>
+              </div>
             </div>
 
-            {/* Main heading */}
-            <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black mb-6 opacity-0 animate-fade-in-up" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
-              <span className="text-foreground">I'm </span>
-              <span className="text-primary glow-text">Jenushan</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-xl md:text-2xl text-muted-foreground font-light mb-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
-              Full-Stack Developer & Creative Technologist
-            </p>
-
-            {/* Tagline */}
-            <p className="text-lg text-muted-foreground/70 max-w-2xl mx-auto mb-10 opacity-0 animate-fade-in-up" style={{ animationDelay: "800ms", animationFillMode: "forwards" }}>
-              Crafting powerful digital experiences with cutting-edge technology.
-              Building the future, one line of code at a time.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-fade-in-up" style={{ animationDelay: "1000ms", animationFillMode: "forwards" }}>
-              <Link to="/projects">
-                <GlowButton size="lg">
-                  View My Work
-                  <ArrowRight size={18} className="ml-2 inline" />
-                </GlowButton>
-              </Link>
-              <Link to="/contact">
-                <GlowButton variant="outline" size="lg">
-                  Get In Touch
-                </GlowButton>
-              </Link>
+            {/* Right Column - Image */}
+            <div className="flex justify-center lg:justify-end items-end h-full opacity-0 animate-fade-in-right relative" style={{ animationDelay: "1200ms", animationFillMode: "forwards" }}>
+              <img 
+                src="/assets/jenu.png" 
+                alt="Jenushan - Full-Stack Developer" 
+                className="w-80 h-auto md:w-[420px] lg:w-[500px] max-h-[calc(100vh-5rem)] object-cover object-bottom rounded-lg shadow-2xl hover:scale-105 transition-transform duration-500 relative z-10"
+              />
+              
+              {/* Light source in front of image */}
+              <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-gradient-radial from-primary/30 via-primary/15 to-transparent rounded-full blur-2xl animate-pulse-glow z-20 pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-[200px] h-[200px] bg-gradient-radial from-primary/40 via-primary/20 to-transparent rounded-full blur-xl animate-pulse-glow z-20 pointer-events-none" style={{ animationDelay: "1s" }} />
             </div>
           </div>
         </div>
