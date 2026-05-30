@@ -1,73 +1,82 @@
-# Welcome to your Lovable project
+# Portfolio — Jenushan
 
-## Project info
+Personal portfolio site for Jenushan, a Full-Stack Developer & Creative Technologist. A fast, single-page React app showcasing work, background, and contact info.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Tech Stack
 
-## How can I edit this code?
+- **Vite** — build tooling & dev server
+- **React 18** + **TypeScript**
+- **React Router** — client-side routing
+- **Tailwind CSS** + **shadcn/ui** (Radix primitives)
+- **TanStack Query** — data fetching/caching
+- **Supabase** — backend (contact, data)
+- **React Hook Form** + **Zod** — forms & validation
 
-There are several ways of editing your application.
+## Pages
 
-**Use Lovable**
+- `/` — Home
+- `/about` — About
+- `/projects` — Projects
+- `/contact` — Contact
+- `*` — 404 Not Found
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Requires [Node.js](https://nodejs.org) (or [Bun](https://bun.sh) — a `bun.lockb` is included).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The app runs at the URL printed in your terminal.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Environment Variables
 
-**Use GitHub Codespaces**
+Create a `.env` file in the project root:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```sh
+VITE_SUPABASE_PROJECT_ID=your-project-id
+VITE_SUPABASE_URL=your-project-url
+VITE_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+```
 
-## What technologies are used for this project?
+These are read in `src/integrations/supabase/client.ts`. Never commit real keys.
 
-This project is built with:
+## Scripts
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server with hot reload |
+| `npm run build` | Production build to `dist/` |
+| `npm run build:dev` | Build in development mode |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
 
-## How can I deploy this project?
+## Project Structure
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+```
+src/
+├── pages/         # Route components (Home, About, Projects, Contact, NotFound)
+├── components/
+│   ├── layout/    # Navbar, Footer, PageLayout
+│   ├── projects/  # ProjectCard
+│   └── ui/        # shadcn/ui + custom components (GlowButton, SectionTitle)
+├── integrations/
+│   └── supabase/  # Supabase client & generated types
+├── hooks/         # Custom hooks (use-mobile, use-toast)
+├── lib/           # Utilities
+└── App.tsx        # Routing & providers
+```
 
-## Can I connect a custom domain to my Lovable project?
+## Deployment
 
-Yes, you can!
+Build with `npm run build` and serve the static `dist/` directory on any static host (Vercel, Netlify, Cloudflare Pages, etc.). Configure the Supabase environment variables on your host.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Contact
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- GitHub: [@jenushan04](https://github.com/jenushan04)
+- LinkedIn: [jenushan-pavananthan](https://linkedin.com/in/jenushan-pavananthan)

@@ -3,19 +3,20 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 import { GlowButton } from "@/components/ui/GlowButton";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, Send, Github, Linkedin, Instagram } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+
+const CONTACT_EMAIL = "jenu4jenushan@gmail.com";
 
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "jenushan@example.com", href: "mailto:jenushan@example.com" },
-  { icon: Phone, label: "Phone", value: "+1 (555) 123-4567", href: "tel:+15551234567" },
-  { icon: MapPin, label: "Location", value: "San Francisco, CA", href: "#" },
+  { icon: Mail, label: "Email", value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
 ];
 
 const socialLinks = [
-  { icon: Github, label: "GitHub", href: "https://github.com" },
-  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com" },
-  { icon: Twitter, label: "Twitter", href: "https://twitter.com" },
+  { icon: Github, label: "GitHub", href: "https://github.com/jenushan04" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/jenushan-pavananthan" },
+  { icon: Instagram, label: "Instagram", href: "https://instagram.com/jenushanneo" },
 ];
 
 export default function Contact() {
@@ -36,16 +37,50 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // TODO: Replace with actual Supabase edge function call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // Send the message via the Supabase "send-contact" edge function.
+      // The visitor stays on the page — no system mail client involved.
+      const { error } = await supabase.functions.invoke("send-contact", {
+        body: formData,
+      });
 
-    toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. I'll get back to you soon!",
-    });
+      if (error) {
+        // Surface the real reason from the function response when available.
+        let detail = "";
+        const ctx = (error as { context?: Response }).context;
+        if (ctx && typeof ctx.text === "function") {
+          try {
+            const raw = await ctx.text();
+            try {
+              const body = JSON.parse(raw);
+              detail = body?.error || body?.message || raw;
+            } catch {
+              detail = raw;
+            }
+          } catch {
+            /* could not read response body */
+          }
+        }
+        if (!detail) detail = error.message || "Request failed";
+        console.error("send-contact failed:", error, detail);
+        throw new Error(detail);
+      }
 
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setIsSubmitting(false);
+      toast({
+        title: "Message sent!",
+        description: "Thanks for reaching out — I'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : "Unknown error";
+      toast({
+        title: "Couldn't send your message",
+        description: `${reason}. Or email me directly at ${CONTACT_EMAIL}.`,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
