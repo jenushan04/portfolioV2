@@ -4,15 +4,23 @@ import { GlowButton } from "@/components/ui/GlowButton";
 import { Link } from "react-router-dom";
 import { Code, Database, Globe, Palette, Server, Smartphone, ArrowRight, Calendar } from "lucide-react";
 
-const skills = [
-  { name: "React / Next.js", category: "Frontend", level: 95 },
-  { name: "TypeScript", category: "Frontend", level: 90 },
-  { name: "Tailwind CSS", category: "Frontend", level: 95 },
-  { name: "Node.js", category: "Backend", level: 85 },
-  { name: "Python", category: "Backend", level: 80 },
-  { name: "PostgreSQL", category: "Database", level: 85 },
-  { name: "AWS / Cloud", category: "DevOps", level: 75 },
-  { name: "Docker", category: "DevOps", level: 80 },
+// Technical skills sourced from github.com/jenushan04 tech stack
+const skillGroups = [
+  {
+    category: "Frontend",
+    icon: Globe,
+    skills: ["React", "Next.js", "Angular", "TypeScript", "JavaScript", "Tailwind CSS", "Bootstrap", "HTML"],
+  },
+  {
+    category: "Backend",
+    icon: Server,
+    skills: ["Node.js", "Express", "PHP", "Laravel", "Java", "Python", "Django"],
+  },
+  {
+    category: "Database & Cloud",
+    icon: Database,
+    skills: ["PostgreSQL", "MySQL", "SQLite", "AWS", "Docker", "Linux", "Git", "GitHub"],
+  },
 ];
 
 const services = [
@@ -25,10 +33,8 @@ const services = [
 ];
 
 const timeline = [
-  { year: "2024", title: "Senior Developer", company: "Tech Innovations Inc.", desc: "Leading full-stack development for enterprise clients" },
-  { year: "2022", title: "Full-Stack Developer", company: "Digital Solutions", desc: "Built scalable web applications and APIs" },
-  { year: "2020", title: "Frontend Developer", company: "Creative Agency", desc: "Developed responsive websites and interactive experiences" },
-  { year: "2019", title: "Computer Science Degree", company: "University", desc: "Graduated with honors in Computer Science" },
+  { year: "May 2025", title: "Chief Operating Officer (COO)", company: "Thamizhi LLC", desc: "Promoted to COO, overseeing operations and product engineering for the company's ERP and SaaS platforms." },
+  { year: "Jan 2025", title: "Junior Developer", company: "Thamizhi LLC", desc: "Began my software development career building enterprise web applications and backend systems." },
 ];
 
 export default function About() {
@@ -44,9 +50,13 @@ export default function About() {
                 {/* Glow effect */}
                 <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl" />
                 
-                {/* Avatar placeholder */}
-                <div className="relative w-full h-full rounded-full border-2 border-primary/50 overflow-hidden bg-gradient-to-br from-card to-secondary flex items-center justify-center glow-border">
-                  <span className="font-display text-8xl font-black text-primary glow-text">J</span>
+                {/* Profile photo */}
+                <div className="relative w-full h-full rounded-full border-2 border-primary/50 overflow-hidden bg-gradient-to-br from-card to-secondary glow-border">
+                  <img
+                    src="/assets/about.jpg"
+                    alt="Jenushan — Full-Stack Developer & COO at Thamizhi LLC"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 
                 {/* Decorative elements */}
@@ -61,10 +71,10 @@ export default function About() {
                 About <span className="text-primary glow-text">Me</span>
               </h1>
               <p className="text-lg text-muted-foreground mb-6 opacity-0 animate-fade-in-up" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
-                I'm a passionate full-stack developer with over 5 years of experience crafting digital experiences that blend stunning design with powerful functionality.
+                I'm a full-stack developer who began my career in January 2025 at Thamizhi LLC and was promoted to Chief Operating Officer (COO) in May 2025.
               </p>
               <p className="text-muted-foreground mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: "500ms", animationFillMode: "forwards" }}>
-                My journey in tech started with a curiosity for how things work, evolving into a career where I transform complex problems into elegant solutions. I believe in writing clean, maintainable code and creating interfaces that users love.
+                I specialize in enterprise ERP and SaaS platforms, scalable backend systems, and PostgreSQL optimization. I love writing clean, maintainable code and crafting modern, dark-themed interfaces that users enjoy.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start opacity-0 animate-fade-in-up" style={{ animationDelay: "600ms", animationFillMode: "forwards" }}>
                 <Link to="/projects">
@@ -86,28 +96,30 @@ export default function About() {
       <section className="py-20 bg-card/30">
         <div className="container mx-auto px-6">
           <SectionTitle
-            title="Skills & Expertise"
-            subtitle="Technologies I work with to bring ideas to life"
+            title="Technical Skills"
+            subtitle="Languages, frameworks and tools I work with to bring ideas to life"
           />
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {skills.map((skill, index) => (
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {skillGroups.map((group, index) => (
               <div
-                key={skill.name}
-                className="p-4 bg-card border border-border rounded-lg opacity-0 animate-fade-in-up"
+                key={group.category}
+                className="p-6 bg-card border border-border rounded-lg card-hover opacity-0 animate-fade-in-up"
                 style={{ animationDelay: `${index * 100}ms`, animationFillMode: "forwards" }}
               >
-                <div className="flex justify-between items-center mb-2">
-                  <span className="font-medium text-foreground">{skill.name}</span>
-                  <span className="text-sm text-primary">{skill.level}%</span>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
+                    <group.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <h3 className="font-display font-bold text-foreground">{group.category}</h3>
                 </div>
-                <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full transition-all duration-1000"
-                    style={{ width: `${skill.level}%` }}
-                  />
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <span key={skill} className="tech-badge text-xs">
+                      {skill}
+                    </span>
+                  ))}
                 </div>
-                <span className="text-xs text-muted-foreground mt-1 block">{skill.category}</span>
               </div>
             ))}
           </div>
